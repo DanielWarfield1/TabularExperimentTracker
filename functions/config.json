@@ -3,5 +3,10 @@
         "name": "registerExperiment",
         "private": false,
         "disable_arg_logs": true
+    },
+    {
+        "name": "getKeyUser",
+        "private": false,
+        "disable_arg_logs": true
     }
 ]

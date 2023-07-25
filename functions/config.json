@@ -1,11 +1,16 @@
 [
     {
+        "name": "getKeyUser",
+        "private": false,
+        "disable_arg_logs": true
+    },
+    {
         "name": "registerExperiment",
         "private": false,
         "disable_arg_logs": true
     },
     {
-        "name": "getKeyUser",
+        "name": "getKeyUserAPI",
         "private": false,
         "disable_arg_logs": true
     }

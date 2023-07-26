@@ -20,6 +20,7 @@ an experiment gets defined in the following way. *'d fields are required in the 
   *name: "<experimentname>",
   creator_name: "<username>",
   creator_id: "<_id of user>",
+  created_on: <date>,
   *runs_per_pair: <number of times to explore a hyperparameterspace-model/dataset pairing. May be exceeded occasionally>
   is_done: <weather or not the experiment is done. initialized to false>
   successful_runs: <num initialized to 0, incrimented at the conclusion of a successful run>
@@ -83,6 +84,9 @@ exports = async function({ query, headers, body}, response) {
   body['is_done'] = false
   body['successful_runs'] = 0
   body['required_runs'] = mtpairs.length * body['runs_per_pair']
+  body['created_on'] = new Date() 
   
+  const Experiments = context.services.get("mongodb-atlas").db('DB').collection('Experiments');
+  Experiments.insert(body)
   response.setBody(JSON.stringify(body))
 };

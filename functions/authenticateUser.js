@@ -10,7 +10,7 @@ exports = async function(headers){
     throw new Error("a 'Seceret' must be provided in the header");
   }
   if (!headers.hasOwnProperty('Name')){
-    throw new Error("a 'Seceret' must be provided in the header");
+    throw new Error("a 'Name' must be provided in the header");
   }
   
   //extracting the fields necessary for authentication from the header

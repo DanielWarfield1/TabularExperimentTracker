@@ -49,7 +49,7 @@ an experiment gets defined in the following way. *'d fields are required in the 
 exports = async function({ query, headers, body}, response) {
   
   //getting authenticated user or throwing an exception
-  const user = context.functions.execute("authenticateUser", headers);
+  const user = await context.functions.execute("authenticateUser", headers);
   
   //parsing the body
   body = JSON.parse(body.text())

@@ -46,7 +46,7 @@ an experiment gets defined in the following way. *'d fields are required in the 
 */
 
 // This function is the endpoint's request handler.
-exports = function({ query, headers, body}, response) {
+exports = async function({ query, headers, body}, response) {
   
   //getting authenticated user or throwing an exception
   const user = context.functions.execute("authenticateUser", headers);
@@ -78,8 +78,8 @@ exports = function({ query, headers, body}, response) {
   
   //adding fields to convert request body to experiment document
   body['mtpairs'] = mtpairs;
-  // body['creator_name'] = await user['name'];
-  // body['creator_id'] = await user['_id'];
+  body['creator_name'] = await user['name'];
+  body['creator_id'] = await user['_id'];
   body['is_done'] = false
   body['successful_runs'] = 0
   body['required_runs'] = mtpairs.length * body['runs_per_pair']

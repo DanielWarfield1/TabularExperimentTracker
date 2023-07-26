@@ -77,9 +77,9 @@ exports = function({ query, headers, body}, response) {
   }
   
   //adding fields to convert request body to experiment document
-  body['mtpairs'] = mtpairs
-  body['creator_name'] = user['name']
-  body['creator_id'] = user['_id']
+  body['mtpairs'] = mtpairs;
+  // body['creator_name'] = await user['name'];
+  // body['creator_id'] = await user['_id'];
   body['is_done'] = false
   body['successful_runs'] = 0
   body['required_runs'] = mtpairs.length * body['runs_per_pair']

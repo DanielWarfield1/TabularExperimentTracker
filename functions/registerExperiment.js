@@ -62,6 +62,8 @@ exports = function({ query, headers, body}, response) {
   if (!body['definition'].hasOwnProperty('model_groups')){throw new Error("the definition must have 'model_groups',which defines models and their hyperparameter spaces");}
   if (!body['definition'].hasOwnProperty('applications')){throw new Error("the definition must have 'applications', applying models to data groups");}
   
+  //assuming the data_groups, model_groups, and applications are formatted correctly
+  
   //iterating over all applications, all groups, and all lists of models to get model-task pairs
   var mtpairs = []
   var index = 0
@@ -73,5 +75,14 @@ exports = function({ query, headers, body}, response) {
       }
     }
   }
-  response.setBody(JSON.stringify(mtpairs))
+  
+  //adding fields to convert request body to experiment document
+  body['mtpairs'] = mtpairs
+  body['creator_name'] = user['name']
+  body['creator_id'] = user['_id']
+  body['is_done'] = false
+  body['successful_runs'] = 0
+  body['required_runs'] = mtpairs.length * body['runs_per_pair']
+  
+  response.setBody(body)
 };

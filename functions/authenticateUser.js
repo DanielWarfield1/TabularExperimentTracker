@@ -9,6 +9,10 @@ exports = async function(headers){
   seceret = headers['Seceret']
   name = headers['Name']
   
+  if (seceret === null || name === null){
+    throw new Error("a 'Seceret' and 'Name' must be provided in the header");
+  }
+  
   //name and seceret might be lists because of how headers are packaged
   if (Array.isArray(name)){
     name = name[0]

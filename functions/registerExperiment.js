@@ -5,8 +5,8 @@ Experiments are uniquely identified by name. In order to promote ease of deploym
  - checks that an experiment by the same name already exists.
  
 it then returns either
- - "new experiment"
- - "existing experiment"
+ - "new experiment created"
+ - "existing experiment found"
 such that these two cases can be handled, as necessary.
 
 the saved experiment does three things:
@@ -55,8 +55,15 @@ exports = async function({ query, headers, body}, response) {
   //parsing the body
   body = JSON.parse(body.text())
   
-  //validating packet
+  //scanning for existing experiment
   if (!body.hasOwnProperty('name')){throw new Error("a 'name' is required for the experiment");}
+  const Experiments = context.services.get("mongodb-atlas").db('DB').collection('Experiments');
+  if (await Experiments.findOne({ name: body['name'] })){
+    response.setBody("existing experiment found")
+    return
+  }
+  
+  //validating packet
   if (!body.hasOwnProperty('runs_per_pair')){throw new Error("'runs_per_pair' is required, defining the number of hyperparameter searches for a model-hyp/dataset pairing");}
   if (!body.hasOwnProperty('definition')){throw new Error("a 'definition' is required for the experiment");}
   if (!body['definition'].hasOwnProperty('data_groups')){throw new Error("the definition must have 'data_groups', a dict of lists of tasks");}
@@ -71,7 +78,7 @@ exports = async function({ query, headers, body}, response) {
   for (const [group, models] of Object.entries(body['definition']['applications'])) {
     for (const task of body['definition']['data_groups'][group]){
       for (const model of models){
-        mtpairs.push({index:index, model:model, task:task, successful_runs:[], initiated_runs:[], is_done:[]})
+        mtpairs.push({index:index, model:model, task:task, successful_runs:[], initiated_runs:[], is_done:false})
         index += 1
       }
     }
@@ -86,7 +93,6 @@ exports = async function({ query, headers, body}, response) {
   body['required_runs'] = mtpairs.length * body['runs_per_pair']
   body['created_on'] = new Date() 
   
-  const Experiments = context.services.get("mongodb-atlas").db('DB').collection('Experiments');
   Experiments.insertOne(body)
-  response.setBody(JSON.stringify(body))
+  response.setBody("new experiment created")
 };

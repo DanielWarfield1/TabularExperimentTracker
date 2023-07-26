@@ -3,11 +3,11 @@
 to test this, test the authenticate HTTPS endpoint. This function is intended to be middleware.
 */
 
-exports = async function(header){
+exports = async function(headers){
   
   //extracting the fields necessary for authentication from the header
-  seceret = header['Seceret']
-  name = header['Name']
+  seceret = headers['Seceret']
+  name = headers['Name']
   
   //name and seceret might be lists because of how headers are packaged
   if (Array.isArray(name)){

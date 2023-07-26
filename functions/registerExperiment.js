@@ -66,7 +66,7 @@ exports = function({ query, headers, body}, response) {
   var mtpairs = []
   var index = 0
   for (const [group, models] of Object.entries(body['definition']['applications'])) {
-    for (const task of body['data_groups'][group]){
+    for (const task of body['definition']['data_groups'][group]){
       for (const model of models){
         mtpairs.push({index:index, model:model, task:task, successful_runs:[], initiated_runs:[], is_done:[]})
         index += 1

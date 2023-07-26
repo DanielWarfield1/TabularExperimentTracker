@@ -33,12 +33,12 @@ an experiment gets defined in the following way. *'d fields are required in the 
     }
     applications:{
       group0: ["model0"],
-      group0: ["model0", "model1"]
+      group1: ["model0", "model1"]
     }
   }
   mtpairs:[
-    {model: 'model0', task: 'dataUID0', successful_runs:[], initiated_runs:[], is_done:false},
-    {model: 'model0', task: 'dataUID1', successful_runs:[], initiated_runs:[], is_done:false},
+    {index:0, model: 'model0', task: 'dataUID0', successful_runs:[], initiated_runs:[], is_done:false},
+    {index:1, model: 'model0', task: 'dataUID1', successful_runs:[], initiated_runs:[], is_done:false},
     ...
   ]
 }
@@ -62,6 +62,15 @@ exports = function({ query, headers, body}, response) {
   if (!body['definition'].hasOwnProperty('model_groups')){throw new Error("the definition must have 'model_groups',which defines models and their hyperparameter spaces");}
   if (!body['definition'].hasOwnProperty('applications')){throw new Error("the definition must have 'applications', applying models to data groups");}
   
-  //I will assume all data is formatted correctly
+  const keys = Object.keys(body['definition']['applications']);
+  for (const key of keys) {
+    if (key.match(/(.*)\1/)) {
+      throw new Error("the data group "+key+" appears in more than one application")
+    }
+  } 
+  
+  //iterating over all applications, and all groups, to get model-task pairs
+  const mtpairs = []
+  
   
 };

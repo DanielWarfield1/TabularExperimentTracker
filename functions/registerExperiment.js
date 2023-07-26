@@ -62,11 +62,16 @@ exports = function({ query, headers, body}, response) {
   if (!body['definition'].hasOwnProperty('model_groups')){throw new Error("the definition must have 'model_groups',which defines models and their hyperparameter spaces");}
   if (!body['definition'].hasOwnProperty('applications')){throw new Error("the definition must have 'applications', applying models to data groups");}
   
-  const duplicates = Object.keys(body['definition']['applications']).filter((e, i, a) => a.indexOf(e) !== i)
-  if (duplicates.length){throw new Error("applications contains duplicate groups");}
-  
-  //iterating over all applications, and all groups, to get model-task pairs
-  const mtpairs = []
-  
-  
+  //iterating over all applications, all groups, and all lists of models to get model-task pairs
+  var mtpairs = []
+  var index = 0
+  for (const [group, models] of Object.entries(body['definition']['applications'])) {
+    for (const task of body['data_groups'][group]){
+      for (const model of models){
+        mtpairs.push({index:index, model:model, task:task, successful_runs:[], initiated_runs:[], is_done:[]})
+        index += 1
+      }
+    }
+  }
+  response.setBody(JSON.stringify(mtpairs))
 };

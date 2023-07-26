@@ -63,7 +63,7 @@ exports = function({ query, headers, body}, response) {
   if (!body['definition'].hasOwnProperty('applications')){throw new Error("the definition must have 'applications', applying models to data groups");}
   
   const duplicates = Object.keys(body['definition']['applications']).filter((e, i, a) => a.indexOf(e) !== i)
-  if (len(duplicates)){throw new Error("applications contains duplicate groups");}
+  if (duplicates.length){throw new Error("applications contains duplicate groups");}
   
   //iterating over all applications, and all groups, to get model-task pairs
   const mtpairs = []

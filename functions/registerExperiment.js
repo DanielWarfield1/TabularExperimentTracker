@@ -4,21 +4,52 @@ Experiments are uniquely identified by name. In order to promote ease of deploym
  - creates a new experiment
  - checks that an experiment by the same name already exists.
  
-it then returns
+it then returns either
  - "new experiment"
  - "existing experiment"
- 
-TODO: as the definition of an experiment becomes more crystalized, the proposed experiment
-might be compared against the existing experiment's definition to gauge compatability
+such that these two cases can be handled, as necessary.
 
-exports({
-  query: {arg1: "hello",arg2: "world"},
-  headers: {"Content-Type": ["application/json"], "name": "<username>", "seceret": "<seceret"}
-})
+the saved experiment does three things:
+ - keeps track of the initial configuration
+ - keeps track of experiment progress by relating to "runs" for specific dataset/model pairs
+ - allows for the prioritization of which mtpair should be run
 
+an experiment gets defined in the following way. *'d fields are required in the body of the input:
+------------------------------------------------------
+{
+  *name: "<experimentname>",
+  creator_name: "<username>",
+  creator_id: "<_id of user>",
+  *runs_per_pair: <number of times to explore a hyperparameterspace-model/dataset pairing. May be exceeded occasionally>
+  is_done: <weather or not the experiment is done. initialized to false>
+  successful_runs: <num initialized to 0, incrimented at the conclusion of a successful run>
+  *definition: {
+    data_groups:{
+      group0: ['dataUID0', 'dataUID1', 'dataUID2'], group1: ['dataUID3', 'dataUID4', 'dataUID5']
+    }
+    model_groups:{
+      model0: {model: 'modelUID0', hype: <hyperparameter dict>}, model1: {model: 'modelUID1', hype: <hyperparameter dict>}
+    }
+    applications:{
+      group0: ["model0"],
+      group0: ["model0", "model1"]
+    }
+  }
+  mtpairs:[
+    {model: 'model0', task: 'dataUID0', successful_runs:[], initiated_runs:[], is_done:false},
+    {model: 'model0', task: 'dataUID1', successful_runs:[], initiated_runs:[], is_done:false},
+    ...
+  ]
+}
+------------------------------------------------------
 */
 
 // This function is the endpoint's request handler.
 exports = function({ query, headers, body}, response) {
+  
+  //getting authenticated user or throwing an exception
   const user = context.functions.execute("authenticateUser", headers);
+  
+  response.setBody(body);
+  
 };

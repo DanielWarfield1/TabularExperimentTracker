@@ -13,5 +13,10 @@
         "name": "getKeyUserAPI",
         "private": false,
         "disable_arg_logs": true
+    },
+    {
+        "name": "createUser",
+        "private": false,
+        "disable_arg_logs": true
     }
 ]

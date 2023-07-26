@@ -13,5 +13,10 @@
         "name": "authenticateUser",
         "private": false,
         "disable_arg_logs": true
+    },
+    {
+        "name": "authenticateUserAPI",
+        "private": false,
+        "disable_arg_logs": true
     }
 ]

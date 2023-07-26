@@ -6,6 +6,11 @@ copy and paste this into the testing console:
 then run.
 
 Copy the seceret and send it to the user.
+
+sample request:
+----------------------------------------------------------------------------------------------
+exports({'<username>'})
+----------------------------------------------------------------------------------------------
 */
 
 exports = async function(name){

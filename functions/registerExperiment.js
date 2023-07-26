@@ -50,6 +50,14 @@ exports = function({ query, headers, body}, response) {
   //getting authenticated user or throwing an exception
   const user = context.functions.execute("authenticateUser", headers);
   
-  response.setBody(body);
+  //validating packet
+  if (!body.hasOwnProperty('name')){throw new Error("a 'name' is required for the experiment");}
+  if (!body.hasOwnProperty('runs_per_pair')){throw new Error("'runs_per_pair' is required, defining the number of hyperparameter searches for a model-hyp/dataset pairing");}
+  if (!body.hasOwnProperty('definition')){throw new Error("a 'definition' is required for the experiment");}
+  if (!body['definition'].hasOwnProperty('data_groups')){throw new Error("the definition must have 'data_groups', a dict of lists of tasks");}
+  if (!body['definition'].hasOwnProperty('model_groups')){throw new Error("the definition must have 'model_groups',which defines models and their hyperparameter spaces");}
+  if (!body['definition'].hasOwnProperty('applications')){throw new Error("the definition must have 'applications', applying models to data groups");}
+  
+  //I will assume all data is formatted correctly
   
 };

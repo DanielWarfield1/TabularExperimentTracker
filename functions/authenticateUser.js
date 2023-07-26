@@ -27,7 +27,7 @@ exports = async function(headers){
   
   //searching for user with name
   const UserData = context.services.get("mongodb-atlas").db('DB').collection('UserData');
-  const user = UserData.findOne({name: name})
+  const user = await UserData.findOne({name: name})
   if(user === null){
     throw new Error("user name does not exist");
   }
@@ -36,5 +36,5 @@ exports = async function(headers){
   const jwt = require('jsonwebtoken');
   payload = jwt.verify(user['hash'], seceret) //throws invalid signature
   
-  return await user
+  return user
 };

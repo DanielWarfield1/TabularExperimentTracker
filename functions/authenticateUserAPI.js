@@ -9,7 +9,7 @@ sample request:
 ----------------------------------------------------------------------------------------------
 exports({
   query: {arg1: "hello",arg2: "world"},
-  headers: {"Content-Type": ["application/json"], "name": "<username>", "seceret": "<seceret>"}
+  headers: {"Content-Type": ["application/json"], "name": ["<username>"], "seceret": ["<seceret>"]}
 })
 ----------------------------------------------------------------------------------------------
 
@@ -17,5 +17,6 @@ exports({
 
 // This function is the endpoint's request handler.
 exports = function({ query, headers, body}, response) {
-    user = context.functions.execute("authenticateUser", headers['name'],  headers['seceret']);
+    // user = context.functions.execute("authenticateUser", headers['name'],  headers['seceret']);
+    return headers
 };

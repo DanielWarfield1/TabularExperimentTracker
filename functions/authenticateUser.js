@@ -5,13 +5,17 @@ to test this, test the authenticate HTTPS endpoint. This function is intended to
 
 exports = async function(headers){
   
+  //checking that auth values exist
+  if (!headers.hasOwnProperty('Seceret')){
+    throw new Error("a 'Seceret' must be provided in the header");
+  }
+  if (!headers.hasOwnProperty('Name')){
+    throw new Error("a 'Seceret' must be provided in the header");
+  }
+  
   //extracting the fields necessary for authentication from the header
   seceret = headers['Seceret']
   name = headers['Name']
-  
-  if (seceret === null || name === null){
-    throw new Error("a 'Seceret' and 'Name' must be provided in the header");
-  }
   
   //name and seceret might be lists because of how headers are packaged
   if (Array.isArray(name)){

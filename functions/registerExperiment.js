@@ -51,7 +51,9 @@ exports = function({ query, headers, body}, response) {
   //getting authenticated user or throwing an exception
   const user = context.functions.execute("authenticateUser", headers);
   
-  response.setBody(JSON.stringify(body['name']))
+  
+  response.setBody(body)
+  // response.setBody(JSON.stringify(body['name']))
   // response.setBody(JSON.stringify(body['runs_per_pair']))
   return
   

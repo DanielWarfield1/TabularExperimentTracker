@@ -51,11 +51,8 @@ exports = function({ query, headers, body}, response) {
   //getting authenticated user or throwing an exception
   const user = context.functions.execute("authenticateUser", headers);
   
-  
-  response.setBody(body)
-  // response.setBody(JSON.stringify(body['name']))
-  // response.setBody(JSON.stringify(body['runs_per_pair']))
-  return
+  //parsing the body
+  body = JSON.parse(body.text())
   
   //validating packet
   if (!body.hasOwnProperty('name')){throw new Error("a 'name' is required for the experiment");}

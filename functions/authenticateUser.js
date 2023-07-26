@@ -15,5 +15,5 @@ exports = async function(name, seceret){
   const jwt = require('jsonwebtoken');
   payload = jwt.verify(user['hash'], seceret) //throws invalid signature
   
-  return user
+  return await user
 };

@@ -84,5 +84,5 @@ exports = function({ query, headers, body}, response) {
   body['successful_runs'] = 0
   body['required_runs'] = mtpairs.length * body['runs_per_pair']
   
-  response.setBody(body)
+  response.setBody(JSON.stringify(body))
 };

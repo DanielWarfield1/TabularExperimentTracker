@@ -1,8 +1,13 @@
 /* Returns a user object on successful auth, or throws an error. Intended as auth middleware.
 
+to test this, test the authenticate HTTPS endpoint. This function is intended to be middleware.
 */
 
-exports = async function(name, seceret){
+exports = async function(header){
+  
+  //extracting the fields necessary for authentication from the header
+  seceret = header['Seceret']
+  name = header['Name']
   
   //name and seceret might be lists because of how headers are packaged
   if (Array.isArray(name)){

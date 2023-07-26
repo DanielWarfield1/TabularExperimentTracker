@@ -23,6 +23,7 @@ an experiment gets defined in the following way. *'d fields are required in the 
   *runs_per_pair: <number of times to explore a hyperparameterspace-model/dataset pairing. May be exceeded occasionally>
   is_done: <weather or not the experiment is done. initialized to false>
   successful_runs: <num initialized to 0, incrimented at the conclusion of a successful run>
+  required_runs: <num of runs required total>
   *definition: {
     data_groups:{
       group0: ['dataUID0', 'dataUID1', 'dataUID2'], group1: ['dataUID3', 'dataUID4', 'dataUID5']
@@ -51,8 +52,14 @@ exports = function({ query, headers, body}, response) {
   const user = context.functions.execute("authenticateUser", headers);
   
   //validating packet
-  if (!body.hasOwnProperty('name')){throw new Error("a 'name' is required for the experiment");}
-  if (!body.hasOwnProperty('runs_per_pair')){throw new Error("'runs_per_pair' is required, defining the number of hyperparameter searches for a model-hyp/dataset pairing");}
+  if (!body.hasOwnProperty('name')){
+    throw new Error("a 'name' is required for the experiment");
+    
+  }
+  if (!body.hasOwnProperty('runs_per_pair')){
+    throw new Error("'runs_per_pair' is required, defining the number of hyperparameter searches for a model-hyp/dataset pairing");
+    
+  }
   if (!body.hasOwnProperty('definition')){throw new Error("a 'definition' is required for the experiment");}
   if (!body['definition'].hasOwnProperty('data_groups')){throw new Error("the definition must have 'data_groups', a dict of lists of tasks");}
   if (!body['definition'].hasOwnProperty('model_groups')){throw new Error("the definition must have 'model_groups',which defines models and their hyperparameter spaces");}

@@ -18,6 +18,6 @@ exports({
 // This function is the endpoint's request handler.
 exports = function({ query, headers, body}, response) {
     // user = context.functions.execute("authenticateUser", headers['name'],  headers['seceret']);
-    response.setBody(JSON.stringify(headers['Seceret']));
+    response.setBody(headers['Seceret'][0]);
     response.setStatusCode(201);
 };

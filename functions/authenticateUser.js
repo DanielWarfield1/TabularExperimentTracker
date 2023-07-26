@@ -4,6 +4,14 @@
 
 exports = async function(name, seceret){
   
+  //name and seceret might be lists because of how headers are packaged
+  if (Array.isArray(name)){
+    name = name[0]
+  }
+  if (Array.isArray(seceret)){
+    seceret = seceret[0]
+  }
+  
   //searching for user with name
   const UserData = context.services.get("mongodb-atlas").db('DB').collection('UserData');
   const user = await UserData.findOne({name: name})

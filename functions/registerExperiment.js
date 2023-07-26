@@ -87,6 +87,6 @@ exports = async function({ query, headers, body}, response) {
   body['created_on'] = new Date() 
   
   const Experiments = context.services.get("mongodb-atlas").db('DB').collection('Experiments');
-  Experiments.insert(body)
+  Experiments.insertOne(body)
   response.setBody(JSON.stringify(body))
 };

@@ -47,6 +47,12 @@ exports = async function({ query, headers, body}, response) {
   //getting a modle/task pair
   mtpair = await context.functions.execute("decideMTPair", experiment['runs_per_pair'], experiment['mtpairs']);
   
+  //returning null if the experiment has concluded
+  if (mtpair === null){
+    response.setBody("experiment concluded")
+    return
+  }
+  
   //getting the hyperparameter space, model ID, and task for this run
   hype_space = experiment.definition.model_groups[mtpair['model']].hype
   model = experiment.definition.model_groups[mtpair['model']].model

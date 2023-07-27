@@ -10,7 +10,7 @@ The run itself, in terms of a document on the databse, consists of the following
  - metrics_per_epoch: a list of dicts
  - experiment_id: a reference to the experiment being run
  - experiment_name: name of experiment
- - mtpair: the index of the model-task pair in the experiment
+ - mtpair_index: the index of the model-task pair in the experiment
  - is_completed: a bool corresponding to if the worker finished the run
  - user_id: the user which executed the run
  - user_name: the name of the user which completed the run
@@ -60,7 +60,7 @@ exports = async function({ query, headers, body}, response) {
     metrics_per_epoch : [],
     experiment_id: experiment._id,
     experiment_name: experiment.name,
-    mtpair: mtpair.index,
+    mtpair_index: mtpair.index,
     is_completed: false,
     user_id: user._id,
     user_name: user.name,

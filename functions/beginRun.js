@@ -8,12 +8,15 @@ This function does a few things:
  
 The run itself, in terms of a document on the databse, consists of the following
  - metrics_per_epoch: a list of dicts
- - experiment: a reference to the experiment being run
+ - experiment_id: a reference to the experiment being run
+ - experiment_name: name of experiment
  - mtpair: the index of the model-task pair in the experiment
  - is_completed: a bool corresponding to if the worker finished the run
  - user_id: the user which executed the run
  - user_name: the name of the user which completed the run
  - hyp: the specific hyperparameters of the search
+ - model: the specific model used in this run
+ - task: the specific dataset task used in this run
  
 Only a single user, by user_id, can update and choose to conclude the run they created.
  
@@ -44,6 +47,28 @@ exports = async function({ query, headers, body}, response) {
   //getting a modle/task pair
   mtpair = await context.functions.execute("decideMTPair", experiment['runs_per_pair'], experiment['mtpairs']);
   
-  response.setBody(JSON.stringify(mtpair))
+  //getting the hyperparameter space, model ID, and task for this run
+  hype_space = experiment.definitions.model_groups[mtpair['model']].hype
+  model = experiment.definitions.model_groups[mtpair['model']].model
+  task = mtpair['task']
+  
+  //converting hyperparameter space to hyperparameter instance
+  hyp = await context.functions.execute("randomSearch", hype_space);
+  
+  //creating document
+  run ={
+    metrics_per_epoch : [],
+    experiment_id: experiment._id,
+    experiment_name: experiment.name,
+    mtpair: mtpair.index,
+    is_completed: false,
+    user_id: user._id,
+    user_name: user.name,
+    hyp: hyp,
+    model: model,
+    task: task
+  }
+  
+  response.setBody(JSON.stringify(run))
   
 };

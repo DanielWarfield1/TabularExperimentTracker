@@ -7,7 +7,6 @@ The body consists of the following:
 {run: "<run_id>", metrics: {<dict of metrics>}}
 ------------------------------------------------------
 */
-var ObjectId = require('mongodb').ObjectId;
 
 exports = async function({ query, headers, body}, response) {
   /*
@@ -23,7 +22,7 @@ exports = async function({ query, headers, body}, response) {
   
   //finding run
   const Runs = context.services.get("mongodb-atlas").db('DB').collection('Runs');
-  const run = await Runs.findOne({ _id: new ObjectId(body['run'])})
+  const run = await Runs.findOne({ _id: new BSON.ObjectId(body['run'])})
   if (run === null){
     throw new Error("specified run did not exist");
   }

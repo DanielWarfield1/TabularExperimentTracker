@@ -80,6 +80,6 @@ exports = async function({ query, headers, body}, response) {
       {$push : {["mtpairs."+mtpair.index+".initiated_runs"] : new_run}}
   )
   
-  //responding with the run
-  response.setBody(JSON.stringify(run))
+  //responding with the run id, which is used to update and complete the run
+  response.setBody(JSON.stringify(new_run))
 };

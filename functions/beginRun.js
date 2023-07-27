@@ -34,6 +34,12 @@ exports = async function({ query, headers, body}, response) {
   //parsing the body
   body = JSON.parse(body.text())
   
-  experiment = body['experiment']
+  //searching for experiment
+  const Experiments = context.services.get("mongodb-atlas").db('DB').collection('Experiments');
+  const experiment = await Experiments.findOne({ name: body['experiment'] })
+  if (experiment === null){
+    throw new Error("the provided experiment does not exist");
+  }
+  
   
 };

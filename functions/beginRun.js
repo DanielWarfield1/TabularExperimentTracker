@@ -41,5 +41,9 @@ exports = async function({ query, headers, body}, response) {
     throw new Error("the provided experiment does not exist");
   }
   
+  //getting a modle/task pair
+  mtpair = await context.functions.execute("decideMTPair", experiment['runs_per_pair'], experiment['mtpairs']);
+  
+  response.setBody(JSON.stringify(mtpair))
   
 };

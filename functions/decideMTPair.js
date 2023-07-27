@@ -48,6 +48,20 @@ exports(10,[
 ----------------------------------------------------------------------------------------------
 that should either output the mtpair at index 2 or 4
 
+sample request:
+----------------------------------------------------------------------------------------------
+exports(10,[{
+            "index": 3,
+            "model": "model3",
+            "task": "dataUID0",
+            "successful_runs":[1,2,3,4,5,6,7,8,9,10,11,12],
+            "initiated_runs":["id5"],
+            "is_done": false
+        }
+    ])
+----------------------------------------------------------------------------------------------
+that should output null
+
 the arguments are (desired_runs, mtpairs)
 
 if all mtpairs have a length of successful_runs equal to or exceeding desired_runs, then nothing is returned
@@ -63,6 +77,7 @@ exports = async function(desired_runs, mtpairs){
   TODO this could be more memory efficient
   */
   
+  //finding uncompleted mtpairs. returning null if there arent any available
   const uncompleted = mtpairs.filter(item => item.successful_runs.length < desired_runs);
   if (uncompleted.length == 0){
     return null
@@ -70,15 +85,9 @@ exports = async function(desired_runs, mtpairs){
   //filtering by the mtpairs containing the lowest number of completed runs
   const min_completed_length = uncompleted.reduce((prev, curr) => prev.successful_runs.length < curr.successful_runs.length ? prev : curr).successful_runs.length;
   const min_completed = uncompleted.filter(item => item.successful_runs.length === min_completed_length);
-  if (min_completed.length == 0){
-    return null
-  }
   //filtering by the mtpairs containing the lowest number of initiated runs
   const min_init_length = min_completed.reduce((prev, curr) => prev.initiated_runs.length < curr.initiated_runs.length ? prev : curr).initiated_runs.length;
   const min_init = min_completed.filter(item => item.initiated_runs.length == min_init_length);
-  if (min_init.length == 0){
-    return null
-  }
   
   //randomly selecting a run from the remainder
   const mtpair = min_init[Math.floor(Math.random() * min_init.length)];

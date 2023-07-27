@@ -21,7 +21,7 @@ exports = async function({ query, headers, body}, response) {
   
   //finding run
   const Runs = context.services.get("mongodb-atlas").db('DB').collection('Runs');
-  const run = await Experiments.findOne({ _id: new ObjectId(body['experiment'])})
+  const run = await Runs.findOne({ _id: new ObjectId(body['run'])})
   if (run === null){
     throw new Error("specified run did not exist");
   }

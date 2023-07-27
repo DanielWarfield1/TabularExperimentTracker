@@ -7,7 +7,7 @@ The body consists of the following:
 {run: "<run_id>", metrics: {<dict of metrics>}}
 ------------------------------------------------------
 */
-import { ObjectId } from "bson"
+var ObjectId = require('mongodb').ObjectId;
 
 exports = async function({ query, headers, body}, response) {
   /*

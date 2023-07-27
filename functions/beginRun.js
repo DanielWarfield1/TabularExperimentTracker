@@ -55,7 +55,7 @@ exports = async function({ query, headers, body}, response) {
   //converting hyperparameter space to hyperparameter instance
   hyp = await context.functions.execute("randomSearch", hype_space);
   
-  //creating document
+  //creating a run document
   run ={
     metrics_per_epoch : [],
     experiment_id: experiment._id,
@@ -69,6 +69,17 @@ exports = async function({ query, headers, body}, response) {
     task: task
   }
   
-  response.setBody(JSON.stringify(run))
+  //writing the document to the runs collection
+  const Runs = context.services.get("mongodb-atlas").db('DB').collection('Runs');
+  const result = await Runs.insertOne(run)
+  const new_run = result.insertedId
   
+  //adding the run to initiated_runs for the mtpair
+  Experiments.update(
+      {_id : experiment._id},
+      {$push : {["mtpairs."+mtpair.index+".initiated_runs"] : new_run}}
+  )
+  
+  //responding with the run
+  response.setBody(JSON.stringify(run))
 };

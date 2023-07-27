@@ -59,15 +59,27 @@ exports = async function(desired_runs, mtpairs){
    - does it have the lowest number of completed runs?
    - does it have the lowest number of initiated runs?
    - select a random one
+   
+  TODO this could be more memory efficient
   */
   
   const uncompleted = mtpairs.filter(item => item.successful_runs.length < desired_runs);
+  if (uncompleted.length == 0){
+    return null
+  }
   //filtering by the mtpairs containing the lowest number of completed runs
   const min_completed_length = uncompleted.reduce((prev, curr) => prev.successful_runs.length < curr.successful_runs.length ? prev : curr).successful_runs.length;
   const min_completed = uncompleted.filter(item => item.successful_runs.length === min_completed_length);
+  if (min_completed.length == 0){
+    return null
+  }
   //filtering by the mtpairs containing the lowest number of initiated runs
   const min_init_length = min_completed.reduce((prev, curr) => prev.initiated_runs.length < curr.initiated_runs.length ? prev : curr).initiated_runs.length;
   const min_init = min_completed.filter(item => item.initiated_runs.length == min_init_length);
+  if (min_init.length == 0){
+    return null
+  }
+  
   //randomly selecting a run from the remainder
   const mtpair = min_init[Math.floor(Math.random() * min_init.length)];
   

@@ -32,5 +32,10 @@
         "name": "beginRun",
         "private": false,
         "disable_arg_logs": true
+    },
+    {
+        "name": "decideMTPair",
+        "private": false,
+        "disable_arg_logs": true
     }
 ]

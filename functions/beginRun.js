@@ -4,36 +4,36 @@ This function does a few things:
  - it chooses which model-hypespace/task pair should be worked on
  - it uses the hyperparameter space associated with that model to create a random hyperparameter set
  - it creates a new run
+ - it updates the experiment with that new run
+ 
+The run itself, in terms of a document on the databse, consists of the following
+ - metrics_per_epoch: a list of dicts
+ - experiment: a reference to the experiment being run
+ - mtpair: the index of the model-task pair in the experiment
+ - is_completed: a bool corresponding to if the worker finished the run
+ - user_id: the user which executed the run
+ - user_name: the name of the user which completed the run
+ - hyp: the specific hyperparameters of the search
+ 
+Only a single user, by user_id, can update and choose to conclude the run they created.
+ 
+This function also adds the _id of the run to the mtpair's initiated_runs within the experiment.
+
+The body consists of the following, simply:
+------------------------------------------------------
+{experiment: "<experiment name>"}
+------------------------------------------------------
+That should correspond to an existing experiment
 
 */
-exports = function({ query, headers, body}, response) {
-    // Data can be extracted from the request as follows:
-
-    // Query params, e.g. '?arg1=hello&arg2=world' => {arg1: "hello", arg2: "world"}
-    const {arg1, arg2} = query;
-
-    // Headers, e.g. {"Content-Type": ["application/json"]}
-    const contentTypes = headers["Content-Type"];
-
-    // Raw request body (if the client sent one).
-    // This is a binary object that can be accessed as a string using .text()
-    const reqBody = body;
-
-    console.log("arg1, arg2: ", arg1, arg2);
-    console.log("Content-Type:", JSON.stringify(contentTypes));
-    console.log("Request body:", reqBody);
-
-    // You can use 'context' to interact with other application features.
-    // Accessing a value:
-    // var x = context.values.get("value_name");
-
-    // Querying a mongodb service:
-    // const doc = context.services.get("mongodb-atlas").db("dbname").collection("coll_name").findOne();
-
-    // Calling a function:
-    // const result = context.functions.execute("function_name", arg1, arg2);
-
-    // The return value of the function is sent as the response back to the client
-    // when the "Respond with Result" setting is set.
-    return  "Hello World!";
+exports = async function({ query, headers, body}, response) {
+  
+  //getting authenticated user or throwing an exception
+  const user = await context.functions.execute("authenticateUser", headers);
+  
+  //parsing the body
+  body = JSON.parse(body.text())
+  
+  experiment = body['experiment']
+  
 };

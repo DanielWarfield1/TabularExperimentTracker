@@ -44,6 +44,9 @@ an experiment gets defined in the following way. *'d fields are required in the 
   ]
 }
 ------------------------------------------------------
+
+this can be tested via postman:
+https://planetary-shadow-793552.postman.co/workspace/TabularExperimentTracker~acf79d30-9279-42e8-a40f-8a0090d3991d/request/28780419-058150cf-9e48-44ef-9b95-6aac2c3e28e7
 */
 
 // This function is the endpoint's request handler.

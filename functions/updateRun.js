@@ -2,8 +2,33 @@
 Add results to a given run. Generally this should be called on a per-epoch basis.
 The results should also have consistency in terms of keys or values.
 
-the body should contain a dictionary 
+The body consists of the following:
+------------------------------------------------------
+{run: "<run_id>", metrics: {<dict of metrics>}}
+------------------------------------------------------
 */
-exports = function({ query, headers, body}, response) {
+exports = async function({ query, headers, body}, response) {
+  /*
   
+  TODO: could probably optimize queries better
+  */
+  
+  //getting authenticated user or throwing an exception
+  const user = await context.functions.execute("authenticateUser", headers);
+  
+  //parsing the body
+  body = JSON.parse(body.text())
+  
+  //finding run
+  const Runs = context.services.get("mongodb-atlas").db('DB').collection('Runs');
+  const run = await Experiments.findOne({ _id: new ObjectId(body['experiment'])})
+  if (run === null){
+    throw new Error("specified run did not exist");
+  }
+  
+  //updating run
+  Runs.updateOne(
+      {_id : run._id},
+      {$push : {metrics_per_epoch : body['metrics']}}
+  )
 };

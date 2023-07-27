@@ -48,8 +48,8 @@ exports = async function({ query, headers, body}, response) {
   mtpair = await context.functions.execute("decideMTPair", experiment['runs_per_pair'], experiment['mtpairs']);
   
   //getting the hyperparameter space, model ID, and task for this run
-  hype_space = experiment.definitions.model_groups[mtpair['model']].hype
-  model = experiment.definitions.model_groups[mtpair['model']].model
+  hype_space = experiment.definition.model_groups[mtpair['model']].hype
+  model = experiment.definition.model_groups[mtpair['model']].model
   task = mtpair['task']
   
   //converting hyperparameter space to hyperparameter instance

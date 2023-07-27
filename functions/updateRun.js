@@ -10,7 +10,6 @@ The body consists of the following:
 
 exports = async function({ query, headers, body}, response) {
   /*
-  
   TODO: could probably optimize queries better
   */
   
@@ -32,4 +31,7 @@ exports = async function({ query, headers, body}, response) {
       {_id : run._id},
       {$push : {metrics_per_epoch : body['metrics']}}
   )
+  
+  //Successfully updated
+  response.setBody('run updated')
 };

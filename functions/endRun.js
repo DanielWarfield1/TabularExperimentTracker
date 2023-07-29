@@ -41,10 +41,12 @@ exports = async function({ query, headers, body}, response) {
       {$set : {is_completed : true}}
   )
   
-  //adding to completed runs
+  //adding to completed runs for the coresponding mtpair
   const Experiments = context.services.get("mongodb-atlas").db('DB').collection('Experiments');
-  const experiment = await Experiments.findOne({ _id: run.experiment_id})
-  
+  Experiments.updateOne(
+      {_id : run.experiment_id},
+      {$push : {["mtpairs."+rn.mtpair_index+".initiated_runs"] : new_run}}
+  )
   
   //Successfully updated
   response.setBody('run updated')

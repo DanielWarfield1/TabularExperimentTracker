@@ -27,6 +27,7 @@ exports = async function({ query, headers, body}, response) {
   }
   
   //making sure updater is owner
+  //TODO somewhere an _id is represented as a string, I think
   if (run.user_id.str !== user._id.str){
     throw new Error("active user is not the creator of the run" );
   }

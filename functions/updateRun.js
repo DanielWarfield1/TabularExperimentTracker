@@ -27,7 +27,7 @@ exports = async function({ query, headers, body}, response) {
   }
   
   //making sure updater is owner
-  if (run.user_id !== user._id){
+  if (BSON.ObjectId(run.user_id) !== BSON.ObjectId(user._id)){
     throw new Error("active user is not the creator of the run");
   }
   

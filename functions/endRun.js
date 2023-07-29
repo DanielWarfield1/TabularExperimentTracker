@@ -49,5 +49,5 @@ exports = async function({ query, headers, body}, response) {
   )
   
   //Successfully updated
-  response.setBody('run updated')
+  response.setBody('run ended')
 };

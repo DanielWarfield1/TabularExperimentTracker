@@ -87,5 +87,5 @@ exports = async function({ query, headers, body}, response) {
   )
   
   //responding with the corresponding experiment
-  response.setBody(JSON.stringify(experiment._id))
+  response.setBody(JSON.stringify(new_run))
 };

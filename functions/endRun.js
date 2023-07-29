@@ -46,7 +46,7 @@ exports = async function({ query, headers, body}, response) {
   const Experiments = context.services.get("mongodb-atlas").db('DB').collection('Experiments');
   Experiments.updateOne(
       {_id : run.experiment_id},
-      {$push : {["mtpairs."+rn.mtpair_index+".initiated_runs"] : new_run}}
+      {$push : {["mtpairs."+run.mtpair_index+".initiated_runs"] : new_run}}
   )
   
   //Successfully updated

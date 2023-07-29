@@ -1,32 +1,51 @@
-// This function is the endpoint's request handler.
-exports = function({ query, headers, body}, response) {
-    // Data can be extracted from the request as follows:
+/*End Run
+Ends a run, once a model is completed
 
-    // Query params, e.g. '?arg1=hello&arg2=world' => {arg1: "hello", arg2: "world"}
-    const {arg1, arg2} = query;
+The body consists of the following:
+------------------------------------------------------
+{run: "<run_id>"}
+------------------------------------------------------
+*/
 
-    // Headers, e.g. {"Content-Type": ["application/json"]}
-    const contentTypes = headers["Content-Type"];
-
-    // Raw request body (if the client sent one).
-    // This is a binary object that can be accessed as a string using .text()
-    const reqBody = body;
-
-    console.log("arg1, arg2: ", arg1, arg2);
-    console.log("Content-Type:", JSON.stringify(contentTypes));
-    console.log("Request body:", reqBody);
-
-    // You can use 'context' to interact with other application features.
-    // Accessing a value:
-    // var x = context.values.get("value_name");
-
-    // Querying a mongodb service:
-    // const doc = context.services.get("mongodb-atlas").db("dbname").collection("coll_name").findOne();
-
-    // Calling a function:
-    // const result = context.functions.execute("function_name", arg1, arg2);
-
-    // The return value of the function is sent as the response back to the client
-    // when the "Respond with Result" setting is set.
-    return  "Hello World!";
+exports = async function({ query, headers, body}, response) {
+  /*
+  TODO: could probably optimize queries better
+  */
+  
+  //getting authenticated user or throwing an exception
+  const user = await context.functions.execute("authenticateUser", headers);
+  
+  //parsing the body
+  body = JSON.parse(body.text())
+  
+  //finding run
+  const Runs = context.services.get("mongodb-atlas").db('DB').collection('Runs');
+  const run = await Runs.findOne({ _id: new BSON.ObjectId(body['run'])})
+  if (run === null){
+    throw new Error("specified run did not exist");
+  }
+  
+  //making sure updater is owner
+  if (run.user_id !== user._id){
+    throw new Error("active user is not the creator of the run");
+  }
+  
+  //making sure run isn't already ended
+  if (run.is_completed){
+    throw new Error("run already completed");
+  }
+  
+  //updating run
+  Runs.updateOne(
+      {_id : run._id},
+      {$set : {is_completed : true}}
+  )
+  
+  //adding to completed runs
+  const Experiments = context.services.get("mongodb-atlas").db('DB').collection('Experiments');
+  const experiment = await Experiments.findOne({ _id: run.experiment_id})
+  
+  
+  //Successfully updated
+  response.setBody('run updated')
 };

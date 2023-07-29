@@ -80,12 +80,12 @@ exports = async function({ query, headers, body}, response) {
   const result = await Runs.insertOne(run)
   const new_run = result.insertedId
   
-  //adding the run to initiated_runs for the mtpair
+  //adding the run to successful_runs for the mtpair
   Experiments.updateOne(
       {_id : experiment._id},
-      {$push : {["mtpairs."+mtpair.index+".initiated_runs"] : new_run}}
+      {$push : {["mtpairs."+mtpair.index+".successful_runs"] : run._id}}
   )
   
-  //responding with the run id, which is used to update and complete the run
-  response.setBody(JSON.stringify(new_run))
+  //responding with the corresponding experiment
+  response.setBody(JSON.stringify(experiment._id))
 };

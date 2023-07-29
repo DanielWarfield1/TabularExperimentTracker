@@ -26,6 +26,16 @@ exports = async function({ query, headers, body}, response) {
     throw new Error("specified run did not exist");
   }
   
+  //making sure updater is owner
+  if (run.user_id !== user._id){
+    throw new Error("active user is not the creator of the run");
+  }
+  
+  //making sure run isn't already ended
+  if (run.is_completed){
+    throw new Error("run already completed");
+  }
+  
   //updating run
   Runs.updateOne(
       {_id : run._id},

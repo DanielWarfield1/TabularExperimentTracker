@@ -61,5 +61,10 @@
         "name": "getRun",
         "private": false,
         "disable_arg_logs": true
+    },
+    {
+        "name": "getHypePoint",
+        "private": false,
+        "disable_arg_logs": true
     }
 ]

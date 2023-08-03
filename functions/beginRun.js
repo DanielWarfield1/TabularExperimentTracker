@@ -67,6 +67,7 @@ exports = async function({ query, headers, body}, response) {
     experiment_id: experiment._id,
     experiment_name: experiment.name,
     mtpair_index: mtpair.index,
+    mtpair_data: mtpair,
     is_completed: false,
     user_id: user._id,
     user_name: user.name,

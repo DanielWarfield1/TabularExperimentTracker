@@ -23,7 +23,11 @@ exports = async function({ query, headers, body}, response) {
   }
   
   //getting the hyperparameter space for the model_group
-  hype_space = experiment.definition.model_groups[body['model_group']].hype
+  try{
+    hype_space = experiment.definition.model_groups[body['model_group']].hype
+  }catch (error) {
+    throw new Error("could not find model group");
+  }
   
   //converting hyperparameter space to hyperparameter instance
   hyp = await context.functions.execute("randomSearch", hype_space);

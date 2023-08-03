@@ -24,7 +24,7 @@ exports = async function({ query, headers, body}, response) {
   
   //getting the hyperparameter space for the model_group
   try{
-    hype_space = experiment.definition.model_groups[body['model_group']].hype
+    mg = experiment.definition.model_groups[body['model_group']].hype
   }catch (error) {
     throw new Error("could not find model group");
   }

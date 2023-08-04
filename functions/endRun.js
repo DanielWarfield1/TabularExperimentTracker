@@ -58,6 +58,12 @@ exports = async function({ query, headers, body}, response) {
     )
   }
   
+  //adding to the number of completed runs. This is not a perfect proxy for completion, but it's pretty good
+  Experiments.updateOne(
+      {_id : run.experiment_id},
+      {$inc : {successful_runs : 1}}
+  )
+  
   //Successfully updated
   response.setBody('run ended')
 };

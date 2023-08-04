@@ -95,7 +95,7 @@ exports = async function({ query, headers, body}, response) {
   //adding the run to initiated_runs for the mtpair
   Experiments.updateOne(
       {_id : experiment._id.toString()},
-      {$push : {["mtpairs.${mtpair.index}.initiated_runs"] : run._id}}
+      {$push : {["mtpairs.${run.mtpair_index}.initiated_runs"] : run._id}}
   )
   
   //responding with the corresponding experiment

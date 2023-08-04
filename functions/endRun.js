@@ -59,6 +59,7 @@ exports = async function({ query, headers, body}, response) {
   }
   
   //adding to the number of completed runs. This is not a perfect proxy for completion, but it's pretty good
+  //in theory some tasks can over-completed, easpecially when there's not a lot of tasks and a lot of workers
   Experiments.updateOne(
       {_id : run.experiment_id},
       {$inc : {successful_runs : 1}}

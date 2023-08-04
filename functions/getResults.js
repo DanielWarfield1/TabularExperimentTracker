@@ -6,7 +6,7 @@ given a certain experiment, return recorded results for each mtpair
 {experiment: "<experimentname>"}
 ------------------------------------------------------
 
-TODO make this better at asyncronicity
+TODO make this better at asyncronicity. Probably just use map-reduce
 */
 
 // This function is the endpoint's request handler.
@@ -36,7 +36,7 @@ exports = async function({ query, headers, body}, response) {
           run_id = exp['mtpairs'][i]['successful_runs'][j]
           
           //getting data for run
-          const run = Runs.findOne({ _id: run_id})
+          const run = await Runs.findOne({ _id: run_id})
           
           //replacing object id with the run itself
           exp['mtpairs'][i]['successful_runs'][j] = run

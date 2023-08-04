@@ -36,7 +36,7 @@ exports = async function({ query, headers, body}, response) {
           run_id = exp['mtpairs'][i]['successful_runs'][j]
           
           //getting data for run
-          const run = await Runs.findOne({ _id: run_id})
+          const run = Runs.findOne({ _id: run_id})
           
           //replacing object id with the run itself
           exp['mtpairs'][i]['successful_runs'][j] = run

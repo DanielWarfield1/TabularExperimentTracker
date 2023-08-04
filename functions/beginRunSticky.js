@@ -59,12 +59,9 @@ exports = async function({ query, headers, body}, response) {
   
   //returning null if the experiment has concluded
   if (mtpair === null){
-    response.setBody("experiment concluded")
+    response.setBody(null)
     return
   }
-
-  response.setBody("test")
-  return
   
   //getting the hyperparameter space, model ID, and task for this run
   hype_space = experiment.definition.model_groups[mtpair['model']].hype

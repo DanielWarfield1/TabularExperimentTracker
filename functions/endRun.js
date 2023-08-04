@@ -49,6 +49,15 @@ exports = async function({ query, headers, body}, response) {
       {$push : {["mtpairs."+run.mtpair_index+".successful_runs"] : run._id}}
   )
   
+  //checking for completion, and marking as complete if applicable
+  const experiment = await Experiments.findOne({ _id: run.experiment_id})
+  if (experiment.runs_per_pair <= experiment['mtpairs'][run.mtpair_index]['successful_runs'].length){
+    Experiments.updateOne(
+        {_id : run.experiment_id},
+        {$set : {["mtpairs."+run.mtpair_index+".is_done"] : true}}
+    )
+  }
+  
   //Successfully updated
   response.setBody('run ended')
 };

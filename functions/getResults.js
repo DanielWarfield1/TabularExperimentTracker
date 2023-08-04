@@ -6,7 +6,7 @@ given a certain experiment, return recorded results for each mtpair
 {experiment: "<experimentname>"}
 ------------------------------------------------------
 
-TODO make this better at asyncronicity. Probably just use map-reduce
+TODO make end run write the full run, not just the id, to the experiment. (to reduce querying time)
 */
 
 // This function is the endpoint's request handler.

@@ -57,9 +57,9 @@ exports = async function({ query, headers, body}, response) {
     mtpair = await context.functions.execute("decideMTPair", experiment['runs_per_pair'], experiment['mtpairs']);
   }
   
-  //returning null if the experiment has concluded
+  //returning "experiment concluded" if the experiment has concluded
   if (mtpair === null){
-    response.setBody(null)
+    response.setBody('experiment concluded')
     return
   }
   

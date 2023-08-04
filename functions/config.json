@@ -68,5 +68,10 @@
         "private": false,
         "run_as_system": true,
         "disable_arg_logs": true
+    },
+    {
+        "name": "beginRunSticky",
+        "private": false,
+        "disable_arg_logs": true
     }
 ]

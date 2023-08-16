@@ -21,7 +21,8 @@ exports({
   param2: {distribution:'categorical', values:["foo", "bar"]},
   param3: {distribution:'int_uniform', min:0, max:2},
   param4: {distribution:'float_uniform', min:0.0, max:2.5},
-  param5: {distribution:'log_uniform', min:0.001, max:2.5}
+  param5: {distribution:'log_uniform', min:0.001, max:2.5},
+  param6: {distribution:'log_norm', mu:-6, sigma:0.5}
 })
 ----------------------------------------------------------------------------------------------
 

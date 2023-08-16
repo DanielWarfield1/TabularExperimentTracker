@@ -67,6 +67,7 @@ exports = async function(paramSpace){
   */
   
   for (const [key, value] of Object.entries(paramSpace)) {
+    
     if (value['distribution'] === 'constant'){
       paramSpace[key] = value['value']
     }else if(value['distribution'] === 'categorical'){
@@ -80,6 +81,14 @@ exports = async function(paramSpace){
       paramSpace[key] = logUniformDistribution(value['min'], value['max'])
     }else if(value['distribution'] === 'log_norm'){
       paramSpace[key] = logNorm(value['mu'], value['sigma'])
+    }
+    
+    if(value['round'] == 'half_up'){
+      paramSpace[key] = Math.round(paramSpace[key])
+    }else if(value['round'] == 'ceil'){
+      paramSpace[key] = Math.ceil(paramSpace[key])
+    }else if(value['round'] == 'floor'){
+      paramSpace[key] = Math.floor(paramSpace[key])
     }
   }
   return paramSpace

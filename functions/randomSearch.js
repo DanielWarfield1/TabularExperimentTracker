@@ -9,6 +9,7 @@ each parameter is a dictionary consisting of a distribution and some other key v
  - {distribution:int_uniform, min:0, max:2}
  - {distribution:float_uniform, min:0.0, max:2.5}
  - {distribution:log_uniform, min:0.0, max:2.5}
+ - {distribution:log_norm, mu:-6, sigma:0.5}
 
 A hyperparameter space is defined by an obeect containing key value pairs. The key is the name of the
 parameter and the value is a dictionary similar to one of the ones above.
@@ -43,6 +44,21 @@ function logUniformDistribution(min, max) {
   return logUniformValue;
 }
 
+function logNorm(mu, sigma) {
+    // Generate a normally distributed random variable
+    const normalRandom = function() {
+        let u = 0, v = 0;
+        while (u === 0) u = Math.random(); // Converting [0,1) to (0,1)
+        while (v === 0) v = Math.random();
+        return Math.sqrt(-2.0 * Math.log(u)) * Math.cos(2.0 * Math.PI * v);
+    };
+
+    // Calculate log-normal random variable
+    const logNormalRandom = Math.exp(mu + sigma * normalRandom());
+
+    return logNormalRandom;
+}
+
 //main function
 exports = async function(paramSpace){
   /*iterates over every parameter and finds a value based on
@@ -61,6 +77,8 @@ exports = async function(paramSpace){
       paramSpace[key] = Math.random() * (value['max'] - value['min']) + value['min']
     }else if(value['distribution'] === 'log_uniform'){
       paramSpace[key] = logUniformDistribution(value['min'], value['max'])
+    }else if(value['distribution'] === 'log_norm'){
+      paramSpace[key] = logNorm(value['mu'], value['sigma'])
     }
   }
   return paramSpace

@@ -22,7 +22,8 @@ exports({
   param3: {distribution:'int_uniform', min:0, max:2},
   param4: {distribution:'float_uniform', min:0.0, max:2.5},
   param5: {distribution:'log_uniform', min:0.001, max:2.5},
-  param6: {distribution:'log_norm', mu:-6, sigma:0.5}
+  param6: {distribution:'log_norm', mu:-6, sigma:0.5},
+  param7: {distribution:'norm', mu:-6, sigma:0.5}
 })
 ----------------------------------------------------------------------------------------------
 
@@ -60,6 +61,15 @@ function logNorm(mu, sigma) {
     return logNormalRandom;
 }
 
+//random value in normal distribution
+function norm(mean, stdev) {
+    const u = 1 - Math.random(); // Converting [0,1) to (0,1]
+    const v = Math.random();
+    const z = Math.sqrt( -2.0 * Math.log( u ) ) * Math.cos( 2.0 * Math.PI * v );
+    // Transform to the desired mean and standard deviation:
+    return z * stdev + mean;
+}
+
 //main function
 exports = async function(paramSpace){
   /*iterates over every parameter and finds a value based on
@@ -81,6 +91,8 @@ exports = async function(paramSpace){
       paramSpace[key] = logUniformDistribution(value['min'], value['max'])
     }else if(value['distribution'] === 'log_norm'){
       paramSpace[key] = logNorm(value['mu'], value['sigma'])
+    }else if(value['distribution'] === 'norm'){
+      paramSpace[key] = norm(value['mu'], value['sigma'])
     }
     
     if(value['round'] == 'half_up'){

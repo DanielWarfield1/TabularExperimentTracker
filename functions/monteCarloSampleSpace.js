@@ -53,7 +53,7 @@ exports = async function({ query, headers, body}, response) {
   }
   
   //converting to object for json stringification
-  res_ls = Object.assign({}, res_ls);
+  // res_ls = Object.assign({}, res_ls);
   
   // return JSON.stringify(res_ls) //<- for testing
   response.setBody(JSON.stringify(res_ls))

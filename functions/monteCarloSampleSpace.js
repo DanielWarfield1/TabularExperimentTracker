@@ -10,7 +10,7 @@ the general format of the body should be akin to
 {"hype": <hyperparameter space dict>, "n": <integer number of iterations>}
 
 expects a valid hyperparameter space definition, as is used in an experiment definiton:
-{body: '{"hype": {"n_estimators": {"distribution": "log_norm", "mu": 4.605170185988092, "sigma": 0.6931471805599453}, "learning_rate": {"distribution": "log_norm", "mu": -2.3025850929940455, "sigma": 0.9162907318741551}, "num_leaves": {"distribution": "int_uniform", "min": 10, "max": 60}, "max_depth": {"distribution": "int_uniform", "min": -1, "max": 12}, "min_data_in_leaf": {"distribution": "int_uniform", "min": 10, "max": 30}, "lambda_l1": {"distribution": "log_uniform", "min": 0, "max": 100}, "lambda_l2": {"distribution": "log_uniform", "min": 0, "max": 100}, "min_gain_to_split": {"distribution": "log_uniform", "min": 0, "max": 15}, "bagging_fraction": {"distribution": "float_uniform", "min": 0.2, "max": 1}, "bagging_freq": {"distribution": "int_uniform", "min": 0, "max": 3}, "feature_fraction": {"distribution": "float_uniform", "min": 0.2, "max": 1}}, "n": 10}'}
+exports({body: '{"hype": {"n_estimators": {"distribution": "log_norm", "mu": 4.605170185988092, "sigma": 0.6931471805599453}, "learning_rate": {"distribution": "log_norm", "mu": -2.3025850929940455, "sigma": 0.9162907318741551}, "num_leaves": {"distribution": "int_uniform", "min": 10, "max": 60}, "max_depth": {"distribution": "int_uniform", "min": -1, "max": 12}, "min_data_in_leaf": {"distribution": "int_uniform", "min": 10, "max": 30}, "lambda_l1": {"distribution": "log_uniform", "min": 0, "max": 100}, "lambda_l2": {"distribution": "log_uniform", "min": 0, "max": 100}, "min_gain_to_split": {"distribution": "log_uniform", "min": 0, "max": 15}, "bagging_fraction": {"distribution": "float_uniform", "min": 0.2, "max": 1}, "bagging_freq": {"distribution": "int_uniform", "min": 0, "max": 3}, "feature_fraction": {"distribution": "float_uniform", "min": 0.2, "max": 1}}, "n": 10}'})
 
 */
 
@@ -26,7 +26,7 @@ exports = async function({ query, headers, body}, response) {
   let res_ls = [];
   
   //normal run
-  if (true){
+  if (false){
     //getting authenticated user or throwing an exception
     const user = await context.functions.execute("authenticateUser", headers);
     
@@ -52,6 +52,12 @@ exports = async function({ query, headers, body}, response) {
   	res_ls.push(context.functions.execute("randomSearch", body['hype']));
   }
   
-  // return res_ls //<- for testing
+  await Promise.all(res_ls)
+  
+  //converting to object for json stringification
+  res_ls = Object.assign({}, res_ls);
+  
+  // return res_ls
+  // return JSON.stringify(res_ls) //<- for testing
   response.setBody(JSON.stringify(res_ls))
 };

@@ -59,5 +59,5 @@ exports = async function({ query, headers, body}, response) {
   
   // return res_ls
   // return JSON.stringify(res_ls) //<- for testing
-  response.setBody(res_ls)
+  response.setBody(JSON.stringify(res_ls[0]))
 };

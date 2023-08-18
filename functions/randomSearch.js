@@ -71,7 +71,7 @@ function norm(mean, stdev) {
 }
 
 //main function
-exports = async function(paramSpace){
+exports = function(paramSpace){
   /*iterates over every parameter and finds a value based on
   it's respective distribution
   */

@@ -28,7 +28,7 @@ exports = async function({ query, headers, body}, response) {
   //normal run
   if (true){
     //getting authenticated user or throwing an exception
-    const user = await context.functions.execute("authenticateUser", headers);
+    const user = context.functions.execute("authenticateUser", headers);
     
     //parsing the body
     body = JSON.parse(body.text())
@@ -52,12 +52,9 @@ exports = async function({ query, headers, body}, response) {
   	res_ls.push(context.functions.execute("randomSearch", body['hype']));
   }
   
-  await Promise.all(res_ls)
-  
   //converting to object for json stringification
   res_ls = Object.assign({}, res_ls);
   
-  // return res_ls
   // return JSON.stringify(res_ls) //<- for testing
   response.setBody(JSON.stringify(res_ls[0]['n_estimators']))
 };

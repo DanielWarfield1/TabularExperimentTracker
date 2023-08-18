@@ -19,7 +19,7 @@ function isInt(value) {
          !isNaN(parseInt(value, 10));
 }
 
-exports = function({ query, headers, body}, response) {
+exports = async function({ query, headers, body}, response) {
   
   let n = 999;
   let res_ls = [];
@@ -46,12 +46,13 @@ exports = function({ query, headers, body}, response) {
   }else{
     body = JSON.parse(body)
   }
-  
-  //unfortunatly, async appears to break the random number generation
+
   for (let i = 0; i < n; i++) {
     //doing a deep copy to ensure pass by value.
   	res_ls.push(context.functions.execute("randomSearch", JSON.parse(JSON.stringify(body['hype']))));
   }
+  
+  await Promise.all(res_ls)
   
   // return JSON.stringify(res_ls) //<- for testing
   response.setBody(JSON.stringify(res_ls))

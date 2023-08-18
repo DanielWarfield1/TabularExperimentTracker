@@ -26,7 +26,7 @@ exports = async function({ query, headers, body}, response) {
   let res_ls = [];
   
   //normal run
-  if (false){
+  if (true){
     //getting authenticated user or throwing an exception
     const user = await context.functions.execute("authenticateUser", headers);
     

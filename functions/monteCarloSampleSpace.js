@@ -48,13 +48,10 @@ exports = function({ query, headers, body}, response) {
   }
   
   //unfortunatly, async appears to break the random number generation
-  // for (let i = 0; i < n; i++) {
-  //   //for
-  //   res_ls.push(Math.random())
-  // 	res_ls.push(context.functions.execute("randomSearch", body['hype']));
-  // }
-  res_ls.push(context.functions.execute("randomSearch", body['hype']));
-  res_ls.push(context.functions.execute("randomSearch", body['hype']));
+  for (let i = 0; i < n; i++) {
+    //doing a deep copy to ensure pass by value.
+  	res_ls.push(context.functions.execute("randomSearch", JSON.parse(JSON.stringify(body['hype']))));
+  }
   
   // return JSON.stringify(res_ls) //<- for testing
   response.setBody(JSON.stringify(res_ls))

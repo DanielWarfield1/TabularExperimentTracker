@@ -50,7 +50,7 @@ exports = function({ query, headers, body}, response) {
   //unfortunatly, async appears to break the random number generation
   for (let i = 0; i < n; i++) {
     //for
-    Math.random()
+    res_ls.push(Math.random())
   	res_ls.push(context.functions.execute("randomSearch", body['hype']));
   }
   

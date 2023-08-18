@@ -56,5 +56,5 @@ exports = async function({ query, headers, body}, response) {
   res_ls = Object.assign({}, res_ls);
   
   // return JSON.stringify(res_ls) //<- for testing
-  response.setBody(JSON.stringify(res_ls[0]['n_estimators']))
+  response.setBody(JSON.stringify(res_ls))
 };

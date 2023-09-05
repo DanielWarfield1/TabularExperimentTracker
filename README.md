@@ -1,5 +1,7 @@
 # Tabular Experiment Tracker
 
+current WIP in active development
+
 This is a custom test orchestrator and logger inspired by WandB sweeps, but with some application specific functionality. It's built on MongoDB hosted Data Services and Application Services. The idea is for certain models, whith certain hyperparameters, to be able to be trained on certain data sets. As apposed to WandB sweeps which attempt to answer the question of "which modeling setup is the best solution for a given task" this orchestrator attempts to answer the question "how does a set of models behave across a set of tasks". As a result it contains multiple levels of search.
 
 We're dealing with multiple models with multiple hyperparameter search spaces across multiple datasets with multiple problem and feature space types. Generally, the workflow looks like this:

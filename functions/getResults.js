@@ -26,6 +26,10 @@ exports = async function({ query, headers, body}, response) {
     
     //iterating over all mtpairs
     const Runs = context.services.get("mongodb-atlas").db('DB').collection('Runs');
+    
+    running = 0
+    max_runniing = 100
+    
     for (let i = 0; i < 10; ++i) {
     // for (let i = 0; i < exp['mtpairs'].length; ++i) {
         const mtpair = exp['mtpairs'][i];
@@ -36,11 +40,20 @@ exports = async function({ query, headers, body}, response) {
           //getting successful run id
           run_id = exp['mtpairs'][i]['successful_runs'][j]
           
-          //getting data for run
-          const run = await Runs.findOne({ _id: run_id})
+          running+=1
+          
+          if (running > max_runniing){
+            //getting data for run
+            const run = await Runs.findOne({ _id: run_id})
+          }else{
+            //getting data for run
+            const run = Runs.findOne({ _id: run_id})
+          }
           
           //replacing object id with the run itself
           exp['mtpairs'][i]['successful_runs'][j] = run
+          
+          running -= 1
           
         }
     }

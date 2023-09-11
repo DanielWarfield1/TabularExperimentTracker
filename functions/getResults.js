@@ -30,6 +30,7 @@ exports = async function({ query, headers, body}, response) {
     running = 0
     max_runniing = 100
     
+    //querying successful runs
     for (let i = 0; i < 800; ++i) {
     // for (let i = 0; i < exp['mtpairs'].length; ++i) {
         const mtpair = exp['mtpairs'][i];

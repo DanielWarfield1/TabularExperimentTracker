@@ -27,12 +27,11 @@ exports = async function({ query, headers, body}, response) {
     //iterating over all mtpairs
     const Runs = context.services.get("mongodb-atlas").db('DB').collection('Runs');
     
-    running = 0
-    max_runniing = 100
-    
     //querying successful runs
-    for (let i = 0; i < 800; ++i) {
-    // for (let i = 0; i < exp['mtpairs'].length; ++i) {
+    var active = []
+    batch_size = 200
+    batch_iter = 0
+    for (let i = 0; i < exp['mtpairs'].length; ++i) {
         const mtpair = exp['mtpairs'][i];
         
         //iterating over all successful runs
@@ -41,23 +40,20 @@ exports = async function({ query, headers, body}, response) {
           //getting successful run id
           run_id = exp['mtpairs'][i]['successful_runs'][j]
           
-          running+=1
+          //getting data for run
+          run = Runs.findOne({ _id: run_id})
           
-          let run
-          
-          if (running > max_runniing){
-            //getting data for run
-            run = await Runs.findOne({ _id: run_id})
-          }else{
-            //getting data for run
-            run = Runs.findOne({ _id: run_id})
-          }
+          //appending to throttling list
+          batch_iter+=1
+          active.push(run)
           
           //replacing object id with the run itself
           exp['mtpairs'][i]['successful_runs'][j] = run
           
-          running -= 1
-          
+          if (batch_iter == batch_size){
+            await Promise.all(active)
+            batch_iter = 0
+          }
         }
     }
     

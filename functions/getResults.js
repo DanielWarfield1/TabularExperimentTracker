@@ -26,7 +26,8 @@ exports = async function({ query, headers, body}, response) {
     
     //iterating over all mtpairs
     const Runs = context.services.get("mongodb-atlas").db('DB').collection('Runs');
-    for (let i = 0; i < exp['mtpairs'].length; ++i) {
+    for (let i = 0; i < 100; ++i) {
+    // for (let i = 0; i < exp['mtpairs'].length; ++i) {
         const mtpair = exp['mtpairs'][i];
         
         //iterating over all successful runs

@@ -42,12 +42,14 @@ exports = async function({ query, headers, body}, response) {
           
           running+=1
           
+          let run
+          
           if (running > max_runniing){
             //getting data for run
-            const run = await Runs.findOne({ _id: run_id})
+            run = await Runs.findOne({ _id: run_id})
           }else{
             //getting data for run
-            const run = Runs.findOne({ _id: run_id})
+            run = Runs.findOne({ _id: run_id})
           }
           
           //replacing object id with the run itself

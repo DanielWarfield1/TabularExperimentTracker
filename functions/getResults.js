@@ -6,7 +6,7 @@ given a certain experiment, return recorded results for each mtpair
 {experiment: "<experimentname>"}
 ------------------------------------------------------
 
-TODO reduce query time
+This is innefficient. the batch completed run getter is better.
 */
 
 // This function is the endpoint's request handler.
@@ -28,9 +28,6 @@ exports = async function({ query, headers, body}, response) {
     const Runs = context.services.get("mongodb-atlas").db('DB').collection('Runs');
     
     //querying successful runs
-    var active = []
-    batch_size = 500
-    batch_iter = 0
     for (let i = 0; i < exp['mtpairs'].length; ++i) {
         const mtpair = exp['mtpairs'][i];
         
@@ -41,20 +38,10 @@ exports = async function({ query, headers, body}, response) {
           run_id = exp['mtpairs'][i]['successful_runs'][j]
           
           //getting data for run
-          run = Runs.findOne({ _id: run_id})
-          
-          //appending to throttling list
-          batch_iter+=1
-          active.push(run)
+          run = await Runs.findOne({ _id: run_id})
           
           //replacing object id with the run itself
           exp['mtpairs'][i]['successful_runs'][j] = run
-          
-          if (batch_iter == batch_size){
-            await Promise.all(active)
-            batch_iter = 0
-            active = []
-          }
         }
     }
     

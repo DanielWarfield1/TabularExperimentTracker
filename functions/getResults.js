@@ -41,7 +41,7 @@ exports = async function({ query, headers, body}, response) {
         successes.push(run_id)
       }
     }
-    Runs.findOne({ _id: {$in: successes}})
+    Runs.find({ _id: {$in: successes}})
     return
     
     //**************************

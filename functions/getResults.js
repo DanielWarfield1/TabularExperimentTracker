@@ -41,7 +41,8 @@ exports = async function({ query, headers, body}, response) {
         successes.push(run_id)
       }
     }
-    Runs.find({ _id: {$in: successes}})
+    runs = await Runs.find({ _id: {$in: successes}})
+    response.setBody(JSON.stringify(runs))
     return
     
     //**************************

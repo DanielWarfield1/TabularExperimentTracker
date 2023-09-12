@@ -27,6 +27,24 @@ exports = async function({ query, headers, body}, response) {
     //iterating over all mtpairs
     const Runs = context.services.get("mongodb-atlas").db('DB').collection('Runs');
     
+    //**************************
+    //TEST getting successful runs
+    var successes = []
+    for (let i = 0; i < exp['mtpairs'].length; ++i) {
+      const mtpair = exp['mtpairs'][i];
+      
+      //iterating over all successful runs
+      for (let j = 0; j < mtpair['successful_runs'].length; ++j){
+        
+        //getting successful run id
+        run_id = exp['mtpairs'][i]['successful_runs'][j]
+        successes.push(run_id)
+      }
+    }
+    Runs.findOne({ _id: {$in: successes}})
+    return
+    
+    //**************************
     //querying successful runs
     var active = []
     batch_size = 500

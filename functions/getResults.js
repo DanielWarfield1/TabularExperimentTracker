@@ -29,7 +29,7 @@ exports = async function({ query, headers, body}, response) {
     
     //querying successful runs
     var active = []
-    batch_size = 200
+    batch_size = 500
     batch_iter = 0
     for (let i = 0; i < exp['mtpairs'].length; ++i) {
         const mtpair = exp['mtpairs'][i];

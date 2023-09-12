@@ -1,32 +1,56 @@
+/* Get Results
+
+given a certain experiment, return recorded results for each mtpair
+
+------------------------------------------------------
+{experiment: "<experimentname>"}
+------------------------------------------------------
+
+TODO reduce query time
+*/
+
 // This function is the endpoint's request handler.
-exports = function({ query, headers, body}, response) {
-    // Data can be extracted from the request as follows:
+exports = async function({ query, headers, body}, response) {
 
-    // Query params, e.g. '?arg1=hello&arg2=world' => {arg1: "hello", arg2: "world"}
-    const {arg1, arg2} = query;
-
-    // Headers, e.g. {"Content-Type": ["application/json"]}
-    const contentTypes = headers["Content-Type"];
-
-    // Raw request body (if the client sent one).
-    // This is a binary object that can be accessed as a string using .text()
-    const reqBody = body;
-
-    console.log("arg1, arg2: ", arg1, arg2);
-    console.log("Content-Type:", JSON.stringify(contentTypes));
-    console.log("Request body:", reqBody);
-
-    // You can use 'context' to interact with other application features.
-    // Accessing a value:
-    // var x = context.values.get("value_name");
-
-    // Querying a mongodb service:
-    // const doc = context.services.get("mongodb-atlas").db("dbname").collection("coll_name").findOne();
-
-    // Calling a function:
-    // const result = context.functions.execute("function_name", arg1, arg2);
-
-    // The return value of the function is sent as the response back to the client
-    // when the "Respond with Result" setting is set.
-    return  "Hello World!";
+  // getting authenticated user or throwing an exception
+  const user = await context.functions.execute("authenticateUser", headers);
+  
+  // parsing the body
+  body = JSON.parse(body.text())
+  
+  //scanning for existing experiment
+  if (!body.hasOwnProperty('experiment')){throw new Error("a 'experiment' field is required");}
+  if (!body.hasOwnProperty('slice_start')){throw new Error("a 'slice_start' field is required");}
+  if (!body.hasOwnProperty('slice_end')){throw new Error("a 'slice_end' field is required");}
+  
+  const slice_start = body['slice_start']
+  const slice_end = body['slice_end']
+  
+  const Experiments = context.services.get("mongodb-atlas").db('DB').collection('Experiments');
+  const exp = await Experiments.findOne({ name: body['experiment'] })
+  if (exp){
+    
+    //iterating over all mtpairs
+    const Runs = context.services.get("mongodb-atlas").db('DB').collection('Runs');
+    
+    //***************new***********
+    var successes = []
+    for (let i = 0; i < exp['mtpairs'].length; ++i) {
+      const mtpair = exp['mtpairs'][i];
+      
+      //iterating over all successful runs
+      for (let j = 0; j < mtpair['successful_runs'].length; ++j){
+        
+        //getting successful run id
+        run_id = exp['mtpairs'][i]['successful_runs'][j]
+        successes.push(run_id)
+      }
+    }
+    runs = await Runs.find({ _id: {$in: successes}}).toArray()
+    runs = runs.slice(slice_start, slice_end)
+    response.setBody(JSON.stringify(runs))
+    return
+  }
+  
+  throw new Error("could not find experiment")
 };

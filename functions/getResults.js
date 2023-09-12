@@ -53,6 +53,7 @@ exports = async function({ query, headers, body}, response) {
           if (batch_iter == batch_size){
             await Promise.all(active)
             batch_iter = 0
+            active = []
           }
         }
     }

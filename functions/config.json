@@ -1,58 +1,6 @@
 [
     {
-        "name": "registerExperiment",
-        "private": false,
-        "run_as_system": true,
-        "disable_arg_logs": true
-    },
-    {
-        "name": "createUser",
-        "private": false,
-        "disable_arg_logs": true
-    },
-    {
         "name": "authenticateUser",
-        "private": false,
-        "run_as_system": true,
-        "disable_arg_logs": true
-    },
-    {
-        "name": "authenticateUserAPI",
-        "private": false,
-        "run_as_system": true,
-        "disable_arg_logs": true
-    },
-    {
-        "name": "randomSearch",
-        "private": false,
-        "run_as_system": true,
-        "disable_arg_logs": true
-    },
-    {
-        "name": "beginRun",
-        "private": false,
-        "run_as_system": true,
-        "disable_arg_logs": true
-    },
-    {
-        "name": "decideMTPair",
-        "private": false,
-        "disable_arg_logs": true
-    },
-    {
-        "name": "updateRun",
-        "private": false,
-        "run_as_system": true,
-        "disable_arg_logs": true
-    },
-    {
-        "name": "endRun",
-        "private": false,
-        "run_as_system": true,
-        "disable_arg_logs": true
-    },
-    {
-        "name": "getExperiment",
         "private": false,
         "run_as_system": true,
         "disable_arg_logs": true
@@ -64,13 +12,19 @@
         "disable_arg_logs": true
     },
     {
-        "name": "getHypePoint",
+        "name": "beginRunSticky",
         "private": false,
         "run_as_system": true,
         "disable_arg_logs": true
     },
     {
-        "name": "beginRunSticky",
+        "name": "beginRun",
+        "private": false,
+        "run_as_system": true,
+        "disable_arg_logs": true
+    },
+    {
+        "name": "endRun",
         "private": false,
         "run_as_system": true,
         "disable_arg_logs": true
@@ -82,9 +36,60 @@
         "disable_arg_logs": true
     },
     {
+        "name": "registerExperiment",
+        "private": false,
+        "run_as_system": true,
+        "disable_arg_logs": true
+    },
+    {
+        "name": "decideMTPair",
+        "private": false,
+        "disable_arg_logs": true
+    },
+    {
+        "name": "getExperiment",
+        "private": false,
+        "run_as_system": true,
+        "disable_arg_logs": true
+    },
+    {
+        "name": "randomSearch",
+        "private": false,
+        "run_as_system": true,
+        "disable_arg_logs": true
+    },
+    {
+        "name": "getHypePoint",
+        "private": false,
+        "run_as_system": true,
+        "disable_arg_logs": true
+    },
+    {
+        "name": "createUser",
+        "private": false,
+        "disable_arg_logs": true
+    },
+    {
+        "name": "authenticateUserAPI",
+        "private": false,
+        "run_as_system": true,
+        "disable_arg_logs": true
+    },
+    {
+        "name": "updateRun",
+        "private": false,
+        "run_as_system": true,
+        "disable_arg_logs": true
+    },
+    {
         "name": "monteCarloSampleSpace",
         "private": false,
         "run_as_system": true,
+        "disable_arg_logs": true
+    },
+    {
+        "name": "getCompletedRunBatch",
+        "private": false,
         "disable_arg_logs": true
     }
 ]

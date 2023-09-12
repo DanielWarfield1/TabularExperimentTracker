@@ -22,9 +22,9 @@
         "return_type": "JSON"
     },
     {
-        "route": "/beginRun",
+        "route": "/updateRun",
         "http_method": "POST",
-        "function_name": "beginRun",
+        "function_name": "updateRun",
         "validation_method": "NO_VALIDATION",
         "respond_result": false,
         "fetch_custom_user_data": false,
@@ -33,9 +33,31 @@
         "return_type": "JSON"
     },
     {
-        "route": "/updateRun",
+        "route": "/getHypePoint",
         "http_method": "POST",
-        "function_name": "updateRun",
+        "function_name": "getHypePoint",
+        "validation_method": "NO_VALIDATION",
+        "respond_result": false,
+        "fetch_custom_user_data": false,
+        "create_user_on_auth": false,
+        "disabled": false,
+        "return_type": "JSON"
+    },
+    {
+        "route": "/beginRunSticky",
+        "http_method": "POST",
+        "function_name": "beginRunSticky",
+        "validation_method": "NO_VALIDATION",
+        "respond_result": false,
+        "fetch_custom_user_data": false,
+        "create_user_on_auth": false,
+        "disabled": false,
+        "return_type": "JSON"
+    },
+    {
+        "route": "/beginRun",
+        "http_method": "POST",
+        "function_name": "beginRun",
         "validation_method": "NO_VALIDATION",
         "respond_result": false,
         "fetch_custom_user_data": false,
@@ -77,28 +99,6 @@
         "return_type": "JSON"
     },
     {
-        "route": "/getHypePoint",
-        "http_method": "POST",
-        "function_name": "getHypePoint",
-        "validation_method": "NO_VALIDATION",
-        "respond_result": false,
-        "fetch_custom_user_data": false,
-        "create_user_on_auth": false,
-        "disabled": false,
-        "return_type": "JSON"
-    },
-    {
-        "route": "/beginRunSticky",
-        "http_method": "POST",
-        "function_name": "beginRunSticky",
-        "validation_method": "NO_VALIDATION",
-        "respond_result": false,
-        "fetch_custom_user_data": false,
-        "create_user_on_auth": false,
-        "disabled": false,
-        "return_type": "JSON"
-    },
-    {
         "route": "/getResults",
         "http_method": "POST",
         "function_name": "getResults",
@@ -113,6 +113,17 @@
         "route": "/monteCarloSampleSpace",
         "http_method": "POST",
         "function_name": "monteCarloSampleSpace",
+        "validation_method": "NO_VALIDATION",
+        "respond_result": false,
+        "fetch_custom_user_data": false,
+        "create_user_on_auth": false,
+        "disabled": false,
+        "return_type": "JSON"
+    },
+    {
+        "route": "/getCompletedRunBatch",
+        "http_method": "POST",
+        "function_name": "getCompletedRunBatch",
         "validation_method": "NO_VALIDATION",
         "respond_result": false,
         "fetch_custom_user_data": false,
